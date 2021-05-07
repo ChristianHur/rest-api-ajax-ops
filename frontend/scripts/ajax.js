@@ -40,7 +40,7 @@ function processAJAX(type = 'GET', id = '', data = null) {
             url: url + id,
             contentType: 'application/json',
             data: data,
-            async:false,
+            async:true,
         })
         .done((data)=>{
             books = data;
