@@ -35,25 +35,22 @@ app.get('/api/',(req,res)=>{
 
 //GET ONE records:  /api/:id
 app.get('/api/:id',(req,res)=>{
-    let id = req.params.id;
-    let record = "No Record Found.";
+    const id = req.params.id;
+    
     //if found record, return index position
     //else return -1
-    let index = books.findIndex( (book)=> book.id==id )
-    
-    if(index != -1){
-        record = books[index];
-    }
-    res.json([record]);
+    const index = books.findIndex( (book)=> book.id==id )    
+    const record = (index != -1) ? [books[index]] : ["No Record Found."];
+    res.json(record);
 })
 
 //DELETE ONE Record:  /api/:id
 app.delete('/api/:id',(req,res)=>{
-    let id = req.params.id;
+    const id = req.params.id;
     let message = "No Record Found.";
     //if found record, return index position
     //else return -1
-    let index = books.findIndex( (book)=> book.id==id )
+    const index = books.findIndex( (book)=> book.id==id )
     
     if(index != -1){
         books.splice(index,1);
@@ -70,7 +67,7 @@ app.delete('/api/',(req,res)=>{
 
 //POST - Inserting a new record:  /api/
 app.post('/api/',(req,res)=>{
-    let newBook = req.body;
+    const newBook = req.body;
     console.log(newBook);
     //newBook = JSON.parse(Object.keys(newBook));
     //console.log(newBook);
@@ -83,9 +80,9 @@ app.post('/api/',(req,res)=>{
 //PUT - Updating an existing record:  /api/:id
 app.put('/api/:id',(req,res)=>{
     let message = "No Record Found.";
-    let newBook = req.body;
-    let id = req.params.id;
-    let index = books.findIndex( (book)=> book.id==id )
+    const newBook = req.body;
+    const id = req.params.id;
+    const index = books.findIndex( (book)=> book.id==id )
     
     if(index != -1){
         books[index] = newBook;
