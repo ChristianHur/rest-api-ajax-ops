@@ -1,23 +1,28 @@
 //API - URL endpoint
-let url = "http://localhost:8080/api/";
+const url = "http://localhost:8080/api/";
 let books = [];
 
 //Process AJAX Calls
 function processAJAX(type = 'GET', id = '', data = null) {
     //create AJAX call
-    if (type == 'GET' || type == 'DELETE') {
+    /*
+    if (type === 'GET' || type === 'DELETE') {
         data = null
     } else {
         data = JSON.stringify(data);
     }
+    */
+    
+    /** The above code can be rewritten using ternary operator **/
+    const data = (type === 'GET' || type === 'DELETE') ? null : JSON.stringify(data);       
 
     //Getting value from radio button
-    let ajaxType = $("#ajax-type input:checked").val();
+    const ajaxType = $("#ajax-type input:checked").val();
 
-    if (ajaxType == 'ajax') {
+    if (ajaxType === 'ajax') {
         console.log('XMLHTTPREQUEST');
         
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open(type, url + id);
         xhr.setRequestHeader('Content-type', 'application/json', 'char-set=utf-8');
         xhr.send(data);
@@ -94,11 +99,16 @@ $().ready(() => {
     })
 });
 
-function getDeleteForm(type) {
+function getDeleteForm(type) {    
+    /*
     message = "Fetch Books";
-    if (type == 'delete') {
+    if (type === 'delete') {
         message = "Delete Books";
     }
+    */
+    
+    message = (type === 'delete') ? "Delete Books" : "Fetch Books";    
+    
     return (`
             <h1>${message}</h1>
             <form id="form-get-delete" onsubmit="return false">
@@ -115,13 +125,19 @@ function getDeleteForm(type) {
     );
 }
 
-function postPutForm(type) {
+function postPutForm(type) {         
+    /*
     message = "Insert A New Book";
     disabled = "";
-    if (type == 'put') {
+    if (type === 'put') {
         message = "Update A Book";
         disabled = "disabled";
     }
+    */
+    
+    /** The above can be rewritten using ternary operator and array destructuring **/
+    const [message, disabled] = (type === 'put') ? ["Update A Book", "disabled"] : ["Insert A New Book",""];
+    
     return (
         `
         <h1>${message}</h1>
@@ -200,6 +216,9 @@ function processResult(books, method) {
         case 'GET':
             $("#result").html(bookTable(books));
             break;
+        default:
+            $("#result").html(books);
+        /*    
         case 'PUT':
             $("#result").html(books);
             break;
@@ -209,6 +228,7 @@ function processResult(books, method) {
         case 'DELETE':
             $("#result").html(books);
             break;
+       */
     }
 }
 
@@ -235,7 +255,7 @@ function prepareUpdate(id) {
         $("#form-put-post #year").val(book.year);
     }
     $("#go-put").click(() => {
-        let newBook = buildBookObject();
+        const newBook = buildBookObject();
         processAJAX('PUT', newBook.id, newBook);
     })
 }
