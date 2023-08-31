@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const {books} = require('./models/books');
 
 const port = 8080;
@@ -12,10 +11,10 @@ app.listen(port,()=> console.log(`Server is running at: ${server}`));
 app.use(cors())
 
 //encode document
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}));
 
 //parsing JSON
-app.use(bodyParser.json());
+app.use(express.json());
 
 
 // APIs and rest code
