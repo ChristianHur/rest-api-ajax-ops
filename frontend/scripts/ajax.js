@@ -1,6 +1,6 @@
 //API - URL endpoint
 const url = "http://localhost:8080/api/";
-let books = [];
+const books = [];
 
 //Process AJAX Calls
 function processAJAX(type = 'GET', id = '', data = null) {
@@ -29,7 +29,9 @@ function processAJAX(type = 'GET', id = '', data = null) {
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 //Convert data to JS object
-                books = JSON.parse(xhr.responseText);
+                //books = JSON.parse(xhr.responseText);
+                books.splice(0);  // Reset the books array
+                books.push(JSON.parse(xhr.responseText)[0]);  // Reassign the books array
                 processResult(books, type);
             }
         }
@@ -47,8 +49,9 @@ function processAJAX(type = 'GET', id = '', data = null) {
             data: data,
             async:true,
         })
-        .done((data)=>{
-            books = data;
+        .done( data =>{
+            books.splice(0);  // Reset the books array
+            books.push(data[0]);  // Reassign books
             processResult(books, type);
         })
         .fail((data)=>{
